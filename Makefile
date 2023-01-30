@@ -1,16 +1,32 @@
+#######################################################################################
+# Variables
+#######################################################################################
+
+CC = g++
+LANG_STD = -std=c++17
+COMPILER_FLAGS = -Wall -Wfatal-errors
+INCLUDE_PATH = -I"./libs/" 
+SRC_FILES = ./src/*.cpp \
+			./src/Game/*.cpp \
+			./src/Logger/*.cpp
+LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -llua5.4
+OBJ_NAME = toohdee
+
 .PHONY: dev
 dev: clean build run 
 
 .PHONY: build
 build:
-	g++ -Wall -std=c++17 -I"./libs/" src/*.cpp -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -llua5.4 -o toohdee
+	$(CC) $(COMPILER_FLAGS) $(LANG_STD) $(INCLUDE_PATH) $(SRC_FILES) $(LINKER_FLAGS) -o $(OBJ_NAME)
+	@echo ""
 
 .PHONY: run
 run:
-	./toohdee
+	@./$(OBJ_NAME)
 
 .PHONY: clean
 clean:
-	rm toohdee
+	@if [ ! -f $(OBJ_NAME) ] ; then exit 0 ; fi
+	@if [ -f $(OBJ_NAME) ] ; then rm $(OBJ_NAME) ; fi
 
 
